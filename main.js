@@ -76,8 +76,10 @@ consultorio.push(new Paciente({
 //---------------------------------------BUSQUEDAS-------------------------------------------------
 // muestro todo el arreglo
 console.log(consultorio);
+
 // Busqueda por id, el id propio del array arranca en 0
 console.log(consultorio[id = 0]);
+
 // Busqueda mediante FOR datos especificos en este caso id y nombre de todo el ARRAY
 for (const Paciente of consultorio) {
     console.log(Paciente.id);
@@ -106,9 +108,7 @@ console.log(jovenes); // [{id: 3, dni: 333, Nombre: "JUAN", apellido: "PEREZ"...
 
 // MAP busca todos los nombres de los pacientes en el arreglo
 const listaNombres = consultorio.map(Paciente => Paciente.nombre);
-console.log(listaNombres);
-//[ 'MATIAS', 'MARIA', 'JUAN' ]
-
+console.log(listaNombres);//[ 'MATIAS', 'MARIA', 'JUAN' ]
 
 //------------------------------------ELIMINAR-------------------------------------------------
 
