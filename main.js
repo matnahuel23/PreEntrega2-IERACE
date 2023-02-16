@@ -94,8 +94,8 @@ for (const Paciente of consultorio) {
     }
 }
 
-// FIND devuelve todo el objeto encontrado que coincida con mi busqueda de ID
-const buscado = consultorio.find(Paciente => Paciente.id === 3);
+// FIND devuelve todo el PRIMER objeto encontrado que coincida con mi busqueda
+const buscado = consultorio.find(Paciente => Paciente.id === 2);
 console.log(buscado); //{id: 3, dni: 333, Nombre: "JUAN", apellido: "PEREZ"...}
 
 // SOME devuelve BOOLEANO para la busqueda que hago en este caso personas que se llamen PEDRO
