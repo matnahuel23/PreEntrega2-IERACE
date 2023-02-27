@@ -1,12 +1,12 @@
 //---------------------------------------FECHA ACTUAL ------------------------------------------
 //Obtengo fecha Actual
 const fechaActual = new Date();
-//---------------------------------------Consultorio-----------------------------------------------
+//---------------------------------------Arreglo Consultorio-----------------------------------------------
 // Array de pacientes
 let consultorio = [];
 // inicializo Id
 let id = 1;
-//-----------------------------------Constructor de Paciente---------------------------------------------
+//-----------------------------------Constructor de Objeto Paciente---------------------------------------------
 class Paciente {
     constructor (info) {
         // AUMENTO ID POR CADA PACIENTE
@@ -39,7 +39,7 @@ class Paciente {
 //     sexo : "Masculino",
 //     pais : "Argentina"
 // });
-//----------------------------------CARGO OBJETOS DENTRO DEL ARREGLO--------------------------------------------
+//----------------------------------Cargo Objetos Pacientes dentro del Arreglo Consultorio--------------------------------------------
 
 consultorio.push(new Paciente({
     dni : 111,
@@ -73,7 +73,7 @@ consultorio.push(new Paciente({
     pais:"brasil"
     })
 );
-//---------------------------------------BUSQUEDAS-------------------------------------------------
+//---------------------------------------Busquedas-------------------------------------------------
 // muestro todo el arreglo
 console.log(consultorio);
 
@@ -86,7 +86,7 @@ for (const Paciente of consultorio) {
     console.log(Paciente.nombre);
 };
 
-// Busqueda y funcion agendado paso a juan a TRUE agendado
+// Busqueda y funcion agendado paso a JUAN a TRUE agendado
 for (const Paciente of consultorio) {
     if (Paciente.nombre === "JUAN")
     {
@@ -114,6 +114,6 @@ console.log(listaNombres);//[ 'MATIAS', 'MARIA', 'JUAN' ]
 
 const index = 1; // índice del elemento a eliminar poniendo 1 elimino el 2do
 
-consultorio.splice(index, 1); // elimina un elemento a partir del índice 1
+consultorio.splice(index, 1); // elimina un elemento a partir del índice 1 o sea el 2 se elimina 
 
 console.log(consultorio); // Output: [{ id: 1, nombre: "objeto1" }, { id: 3, nombre: "objeto3" }]
