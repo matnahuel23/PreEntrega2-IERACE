@@ -68,7 +68,7 @@ consultorio.push(new Paciente({
     nombre: "juan", 
     apellido:"perez",
     nacimiento:'01/01/2000',
-    telefono: 456,
+    telefono: 333,
     sexo: "masculino",
     pais:"brasil"
     })
@@ -94,6 +94,11 @@ for (const Paciente of consultorio) {
     }
 }
 
+//FOREACH Busqueda por el Valor Pais dentro de consultorio, usando el forEach y con esto reemplazo la funcion for
+consultorio.forEach(Paciente => {
+    console.log(Paciente.pais);
+});
+
 // FIND devuelve todo el PRIMER objeto encontrado que coincida con mi busqueda
 const buscado = consultorio.find(Paciente => Paciente.id === 2);
 console.log(buscado); //{id: 3, dni: 333, Nombre: "JUAN", apellido: "PEREZ"...}
@@ -106,9 +111,48 @@ console.log(existe); // false
 const jovenes = consultorio.filter(Paciente => Paciente.edad < 25);
 console.log(jovenes); // [{id: 3, dni: 333, Nombre: "JUAN", apellido: "PEREZ"...}]
 
-// MAP busca todos los nombres de los pacientes en el arreglo
+// .LENGTH para obtener total de objetos en el arreglo
+const totalPacientes = consultorio.length;
+console.log (totalPacientes);
+
+//REDUCE acumulador para tener el total en este caso de edades todas sumandas, con acumulador, lo que suma y el 0 es el inciador
+const edades = consultorio.reduce ((acum, item) => acum + item.edad, 0);
+console.log(edades);
+
+//para hacer promedio de edad hago asi de facil total/cantidad
+let promedioEdad=edades/totalPacientes;
+console.log(promedioEdad);
+
+// MAP busca y devuelve un arreglo con todos los nombres de los pacientes
 const listaNombres = consultorio.map(Paciente => Paciente.nombre);
 console.log(listaNombres);//[ 'MATIAS', 'MARIA', 'JUAN' ]
+
+//MAP transformando el arreglo con Nacionalidad Modificada por URUGUAY y sumo 5 a la edad
+const todosPeru = consultorio.map((item) => {
+    return{
+        dni : item.id,
+        nombre : item.nombre, 
+        apellido : item.apellido,
+        nacimiento : item.nacimiento,
+        edad : item.edad + 5,
+        telefono : item.telefono,
+        sexo : item.sexo,
+        pais : "URUGUAY",
+    }
+});
+console.log(todosPeru);
+
+// SORT para ordenar por alfabeto o edad depende si pongo .edad o .nombre
+consultorio.sort ((a,b) => {
+    if (a.edad > b.edad) {
+        return 1
+    }
+    if (a.edad < b.edad) {
+        return -1
+    }
+    return 0
+});
+console.log(consultorio);
 
 //------------------------------------ELIMINAR-------------------------------------------------
 
