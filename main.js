@@ -1,12 +1,13 @@
+//------------------------------------ARRAY CONSULTORIO-----------------------------------------
+let consultorio = [];
 //---------------------------------------FECHA ACTUAL ------------------------------------------
 //Obtengo fecha Actual
 const fechaActual = new Date();
-//---------------------------------------Arreglo Consultorio-----------------------------------------------
-// Array de pacientes
-let consultorio = [];
+//----------------------------------------CONSULTAS--------------------------------------------
+let consultasTexto = "Cual de las siguientes operaciones desea realizar: \n 1- Buscar paciente por id \n 2- Buscar por apellido \n 3- Agendar paciente por ID \n 4- Existe paciente con x edad \n ";
+//-----------------------------------Constructor de Objeto Paciente---------------------------------------------
 // inicializo Id
 let id = 1;
-//-----------------------------------Constructor de Objeto Paciente---------------------------------------------
 class Paciente {
     constructor (info) {
         // AUMENTO ID POR CADA PACIENTE
@@ -29,135 +30,89 @@ class Paciente {
     }
 }
 
-//---------------------------------------Cargo Paciente en Objeto para probar------------------------------------------
-// const pacientes = new Paciente ({
-//     dni : 123456789,
-//     nombre : "Matias", 
-//     apellido : "Ierace",
-//     nacimiento : '11/07/1986',  // para fechas uso las comillas que estan en el ? '' con mes/dia/año
-//     telefono : 123456789,
-//     sexo : "Masculino",
-//     pais : "Argentina"
-// });
-//----------------------------------Cargo Objetos Pacientes dentro del Arreglo Consultorio--------------------------------------------
+//------------------------------------FUNCIONES--------------------------------------------
 
-consultorio.push(new Paciente({
-    dni : 111,
-    nombre : "Matias", 
-    apellido : "Ierace",
-    nacimiento : '11/07/1986',  // para fechas uso las comillas que estan en el ? '' con mes/dia/año
-    telefono : 111,
-    sexo : "Masculino",
-    pais : "Argentina"
-    })
-);
-
-consultorio.push(new Paciente({
-    dni : 222,
-    nombre : "maria", 
-    apellido : "gomez",
-    nacimiento : '12/31/1994',
-    telefono : 222,
-    sexo : "femenino",
-    pais : "Argentina"
-    })
-);
-
-consultorio.push(new Paciente({
-    dni:333,
-    nombre: "juan", 
-    apellido:"perez",
-    nacimiento:'01/01/2000',
-    telefono: 333,
-    sexo: "masculino",
-    pais:"brasil"
-    })
-);
-//---------------------------------------Busquedas-------------------------------------------------
-// muestro todo el arreglo
-console.log(consultorio);
-
-// Busqueda por id, el id propio del array arranca en 0
-console.log(consultorio[id = 0]);
-
-// Busqueda mediante FOR datos especificos en este caso id y nombre de todo el ARRAY
-for (const Paciente of consultorio) {
-    console.log(Paciente.id);
-    console.log(Paciente.nombre);
-};
-
-// Busqueda y funcion agendado paso a JUAN a TRUE agendado
-for (const Paciente of consultorio) {
-    if (Paciente.nombre === "JUAN")
-    {
-        Paciente.agendado();
+// carga de paciente
+function cargaPacientes (){
+    // Array de pacientes
+    let consultorio = [];
+    let seleccion = true;
+    while (seleccion){
+        let DNI = Number (prompt ("Ingrese DNI"));
+        let NOMBRE =  prompt("Ingrese Nombre");
+        let APELLIDO =  prompt("Ingrese Apellido");
+        let fechaNac =  prompt("Ingrese Fecha de nacimiento formato MM/DD/AAAA");
+        const fechaArr = fechaNac.split("/");
+        const NACIMIENTO = new Date(`${fechaArr[2]}-${fechaArr[0]}-${fechaArr[1]}`);
+        let TELEFONO = Number (prompt ("Ingrese Telefono"));
+        let NACIONALIDAD = prompt ("Ingrese Nacionalidad");
+        let S = prompt ("Ingrese Sexo M (Masculino),F (Femenino) u O (Otro)");
+        S = S.toUpperCase();
+            switch (S){
+                    case "M":
+                        SEXO = "MASCULINO"
+                        break;
+                    case "F":
+                        SEXO = "FEMENINO"
+                        break;
+                    case "O":
+                        SEXO = "OTRO"
+                        break;
+                    default:
+                    alert (`Error en la seleccion`)
+            };
+        consultorio.push(new Paciente({
+            dni:DNI,
+            nombre: NOMBRE, 
+            apellido:APELLIDO,
+            nacimiento:NACIMIENTO,
+            telefono: TELEFONO,
+            sexo: SEXO,
+            pais:NACIONALIDAD
+            }));
+    seleccion = confirm("¿Desea ingresar otro Paciente?");
     }
+    /* uso este alert con JSON para chequear que se haya cargado el arreglo dentro de la funcion
+    const consultorioJSON = JSON.stringify(consultorio);
+    alert(consultorioJSON); */
+    return consultorio
 }
 
-//FOREACH Busqueda por el Valor Pais dentro de consultorio, usando el forEach y con esto reemplazo la funcion for
-consultorio.forEach(Paciente => {
-    console.log(Paciente.pais);
-});
-
-// FIND devuelve todo el PRIMER objeto encontrado que coincida con mi busqueda
-const buscado = consultorio.find(Paciente => Paciente.id === 2);
-console.log(buscado); //{id: 3, dni: 333, Nombre: "JUAN", apellido: "PEREZ"...}
-
-// SOME devuelve BOOLEANO para la busqueda que hago en este caso personas que se llamen PEDRO
-const existe = consultorio.some(Paciente => Paciente.nombre === "PEDRO");
-console.log(existe); // false
-
-// FILTER devuelve los que cumplen la condicion en este caso menor de 25 años
-const jovenes = consultorio.filter(Paciente => Paciente.edad < 25);
-console.log(jovenes); // [{id: 3, dni: 333, Nombre: "JUAN", apellido: "PEREZ"...}]
-
-// .LENGTH para obtener total de objetos en el arreglo
-const totalPacientes = consultorio.length;
-console.log (totalPacientes);
-
-//REDUCE acumulador para tener el total en este caso de edades todas sumandas, con acumulador, lo que suma y el 0 es el inciador
-const edades = consultorio.reduce ((acum, item) => acum + item.edad, 0);
-console.log(edades);
-
-//para hacer promedio de edad hago asi de facil total/cantidad
-let promedioEdad=edades/totalPacientes;
-console.log(promedioEdad);
-
-// MAP busca y devuelve un arreglo con todos los nombres de los pacientes
-const listaNombres = consultorio.map(Paciente => Paciente.nombre);
-console.log(listaNombres);//[ 'MATIAS', 'MARIA', 'JUAN' ]
-
-//MAP transformando el arreglo con Nacionalidad Modificada por URUGUAY y sumo 5 a la edad
-const todosPeru = consultorio.map((item) => {
-    return{
-        dni : item.id,
-        nombre : item.nombre, 
-        apellido : item.apellido,
-        nacimiento : item.nacimiento,
-        edad : item.edad + 5,
-        telefono : item.telefono,
-        sexo : item.sexo,
-        pais : "URUGUAY",
+function consultas (){
+    let opcion = Number (prompt(`${consultasTexto}`));
+    switch (opcion){
+        case 1:
+            let idConsulta = Number (prompt ("Ingrese ID para buscar Paciente"));
+            consultorio.forEach(Paciente => {
+            if (Paciente.id === idConsulta)
+                                    {
+                                        alert (`${Paciente.id} + ${Paciente.nombre} + ${Paciente.apellido}`)
+                                    }
+            });
+            break;
+        case 2:
+            let apellidoConsulta = prompt ("Ingrese Apellido para buscar Paciente");
+            consultorio.forEach(Paciente => {
+            if (Paciente.apellido === apellidoConsulta){
+                                                            alert (`${Paciente.id} + ${Paciente.nombre} + ${Paciente.apellido}`)
+                                                        };
+            });
+            break;
+        case 3:
+            let idAgendado = Number (prompt ("Ingrese Id para agendar paciente"));
+            consultorio.forEach(Paciente => {
+            if (Paciente.id === idAgendado){
+                                                Paciente.agendado();
+                                            };
+            });
+            break;
     }
-});
-console.log(todosPeru);
-
-// SORT para ordenar por alfabeto o edad depende si pongo .edad o .nombre
-consultorio.sort ((a,b) => {
-    if (a.edad > b.edad) {
-        return 1
-    }
-    if (a.edad < b.edad) {
-        return -1
-    }
-    return 0
-});
-console.log(consultorio);
-
-//------------------------------------ELIMINAR-------------------------------------------------
-
-const index = 1; // índice del elemento a eliminar poniendo 1 elimino el 2do
-
-consultorio.splice(index, 1); // elimina un elemento a partir del índice 1 o sea el 2 se elimina 
-
-console.log(consultorio); // Output: [{ id: 1, nombre: "objeto1" }, { id: 3, nombre: "objeto3" }]
+}
+//**************************************INICIO**************************************
+consultorio = cargaPacientes ();
+let mensaje = "Consultorio:\n";
+for (let i = 0; i < consultorio.length; i++) {
+  mensaje += `${consultorio[i].nombre} (${consultorio[i].edad} años)\n`;
+}
+alert(mensaje);
+consultas ();
