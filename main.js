@@ -4,7 +4,7 @@ let consultorio = [];
 //Obtengo fecha Actual
 const fechaActual = new Date();
 //----------------------------------------CONSULTAS--------------------------------------------
-let consultasTexto = "Cual de las siguientes operaciones desea realizar: \n 1- Buscar paciente por id \n 2- Buscar por apellido \n 3- Agendar paciente por ID \n 4- Existe paciente con x edad \n ";
+let consultasTexto = "Cual de las siguientes operaciones desea realizar: \n 1- Buscar paciente por id \n 2- Buscar por apellido \n 3- Agendar paciente por ID \n 4- Existe paciente con x edad \n 5- Listado de los nombres de los pacientes";
 //-----------------------------------Constructor de Objeto Paciente---------------------------------------------
 // inicializo Id
 let id = 1;
@@ -46,21 +46,7 @@ function cargaPacientes (){
         const NACIMIENTO = new Date(`${fechaArr[2]}-${fechaArr[0]}-${fechaArr[1]}`);
         let TELEFONO = Number (prompt ("Ingrese Telefono"));
         let NACIONALIDAD = prompt ("Ingrese Nacionalidad");
-        let S = prompt ("Ingrese Sexo M (Masculino),F (Femenino) u O (Otro)");
-        S = S.toUpperCase();
-            switch (S){
-                    case "M":
-                        SEXO = "MASCULINO"
-                        break;
-                    case "F":
-                        SEXO = "FEMENINO"
-                        break;
-                    case "O":
-                        SEXO = "OTRO"
-                        break;
-                    default:
-                    alert (`Error en la seleccion`)
-            };
+        let SEXO = sexoPaciente();
         consultorio.push(new Paciente({
             dni:DNI,
             nombre: NOMBRE, 
@@ -78,37 +64,110 @@ function cargaPacientes (){
     return consultorio
 }
 
-function consultas (){
-    let opcion = Number (prompt(`${consultasTexto}`));
-    switch (opcion){
-        case 1:
-            let idConsulta = Number (prompt ("Ingrese ID para buscar Paciente"));
-            consultorio.forEach(Paciente => {
-            if (Paciente.id === idConsulta)
-                                    {
-                                        alert (`${Paciente.id} + ${Paciente.nombre} + ${Paciente.apellido}`)
-                                    }
-            });
-            break;
-        case 2:
-            let apellidoConsulta = prompt ("Ingrese Apellido para buscar Paciente");
-            consultorio.forEach(Paciente => {
-            if (Paciente.apellido === apellidoConsulta){
-                                                            alert (`${Paciente.id} + ${Paciente.nombre} + ${Paciente.apellido}`)
-                                                        };
-            });
-            break;
-        case 3:
-            let idAgendado = Number (prompt ("Ingrese Id para agendar paciente"));
-            consultorio.forEach(Paciente => {
-            if (Paciente.id === idAgendado){
-                                                Paciente.agendado();
-                                            };
-            });
-            break;
-    }
+function sexoPaciente(){
+        let continuar = true;
+        while (continuar){
+            let S = prompt ("Ingrese Sexo M (Masculino),F (Femenino) u O (Otro)");
+            S = S.toUpperCase();
+            switch (S){
+                    case "M":
+                        SEXO = "MASCULINO";
+                        continuar=false;
+                        break;
+                    case "F":
+                        SEXO = "FEMENINO";
+                        continuar=false;
+                        break;
+                    case "O":
+                        SEXO = "OTRO";
+                        continuar=false;
+                        break;
+                    default:
+                    alert (`Error en la seleccion`)
+            };
+        }
+        return SEXO;
 }
+
+function busqPorId(){
+                    let idConsulta = Number (prompt ("Ingrese ID para buscar Paciente"));
+                    let personaEncontrada = consultorio.find(function(Paciente) {return Paciente.id === idConsulta;
+                                            });
+                                            if (personaEncontrada.id === idConsulta)
+                                            {
+                                            alert (`${personaEncontrada.id}- ${personaEncontrada.nombre} ${personaEncontrada.apellido} \n La agenda es: ${personaEncontrada.agenda}`);
+                                            }
+                                            else {
+                                                    alert ("No existe el paciente en el consultorio");
+                                            }
+}
+
+function busqPorApellido (){
+                    let apellidoConsulta = prompt ("Ingrese Apellido para buscar Paciente");
+                    apellidoConsulta = apellidoConsulta.toUpperCase();
+                    let personaEncontrada = consultorio.find(function(Paciente) {return Paciente.apellido === apellidoConsulta;
+                                                });
+                                                if (personaEncontrada.id === idConsulta)
+                                                {
+                                                alert (`${personaEncontrada.id}- ${personaEncontrada.nombre} ${personaEncontrada.apellido} \n La agenda es: ${personaEncontrada.agenda}`);}
+                                                else {
+                                                        alert ("No existe el paciente en el consultorio");
+                                                }
+    }
+
+function agendarPaciente (){
+                    let idAgendado = Number (prompt ("Ingrese Id para agendar paciente"));
+                    consultorio.forEach(Paciente => {
+                    if (Paciente.id === idAgendado){
+                                                        Paciente.agendado();
+                                                    }
+                    });
+                    
+}
+
+function existePacientePorEdad(){
+                    let dato = Number (prompt ("Ingrese Edad para chequear existencia"));
+                    const existe = consultorio.some (Paciente => Paciente.edad === dato);
+                    if (existe){
+                        alert ("Hay pacientes con la edad buscada");
+                    }
+                    else {
+                        alert ("No se encuentran pacientes con la edad buscada");
+                    }
+}
+
+function nombresPacientes (){
+    const listaNombres = consultorio.map(Paciente => Paciente.nombre);
+    alert(listaNombres);
+}
+
+function consultas (){
+    let seleccion = true;
+    while (seleccion){
+                        let opcion = Number (prompt(`${consultasTexto}`));
+                        switch (opcion){
+                            case 1:
+                                busqPorId();
+                                break;
+                            case 2:
+                                busqPorApellido();
+                                break;
+                            case 3:
+                                agendarPaciente();
+                                break;
+                            case 4:
+                                existePacientePorEdad();
+                                break;
+                            case 5:
+                                nombresPacientes();
+                                break;
+                        }
+                    seleccion = confirm("¿Desea hacer otra consulta?");
+                    }
+}
+
 //**************************************INICIO**************************************
+
 consultorio = cargaPacientes ();
 let mensaje = "Consultorio:\n";
 for (let i = 0; i < consultorio.length; i++) {
