@@ -91,29 +91,24 @@ function sexoPaciente(){
 
 function busqPorId(){
                     let idConsulta = Number (prompt ("Ingrese ID para buscar Paciente"));
-                    let personaEncontrada = consultorio.find(function(Paciente) {return Paciente.id === idConsulta;
-                                            });
-                                            if (personaEncontrada.id === idConsulta)
-                                            {
-                                            alert (`${personaEncontrada.id}- ${personaEncontrada.nombre} ${personaEncontrada.apellido} \n La agenda es: ${personaEncontrada.agenda}`);
-                                            }
-                                            else {
-                                                    alert ("No existe el paciente en el consultorio");
-                                            }
+                    const person = consultorio.find(p => p.id === idConsulta);
+                    if (person) {
+                                    alert (`${person.id}- ${person.nombre} ${person.apellido} \n La agenda es: ${person.agenda}`);
+                    } else {
+                                    alert (`No existe el paciente en el consultorio`);
+                    }               
 }
 
 function busqPorApellido (){
-                    let apellidoConsulta = prompt ("Ingrese Apellido para buscar Paciente");
-                    apellidoConsulta = apellidoConsulta.toUpperCase();
-                    let personaEncontrada = consultorio.find(function(Paciente) {return Paciente.apellido === apellidoConsulta;
-                                                });
-                                                if (personaEncontrada.id === idConsulta)
-                                                {
-                                                alert (`${personaEncontrada.id}- ${personaEncontrada.nombre} ${personaEncontrada.apellido} \n La agenda es: ${personaEncontrada.agenda}`);}
-                                                else {
-                                                        alert ("No existe el paciente en el consultorio");
-                                                }
-    }
+                            let apConsulta = prompt ("Ingrese el Apellido para buscar al Paciente");
+                            apConsulta = apConsulta.toUpperCase();
+                            const person = consultorio.find(p => p.apellido === apConsulta);
+                            if (person) {
+                                            alert (`${person.id}- ${person.nombre} ${person.apellido} \n La agenda es: ${person.agenda}`);
+                            } else {
+                                            alert (`No existe el paciente en el consultorio`);
+                            }               
+}
 
 function agendarPaciente (){
                     let idAgendado = Number (prompt ("Ingrese Id para agendar paciente"));
