@@ -4,7 +4,7 @@ let consultorio = [];
 //Obtengo fecha Actual
 const fechaActual = new Date();
 //----------------------------------------CONSULTAS--------------------------------------------
-let consultasTexto = "Cual de las siguientes operaciones desea realizar: \n 1- Buscar paciente por id \n 2- Buscar por apellido \n 3- Agendar paciente por ID \n 4- Existe paciente con x edad \n 5- Listado de los nombres de los pacientes";
+let consultasTexto = "Cual de las siguientes operaciones desea realizar: \n 1- Buscar paciente por ID \n 2- Buscar por apellido \n 3- Agendar paciente por ID \n 4- Existe paciente con x edad \n 5- Listado de los nombres de los pacientes \n 6- Promedio de edades  \n 7- Ordenar por edad \n 8- Ordenar por apellido \n 9- Eliminar por ID";
 //-----------------------------------Constructor de Objeto Paciente---------------------------------------------
 // inicializo Id
 let id = 1;
@@ -90,10 +90,11 @@ function sexoPaciente(){
 }
 
 function busqPorId(){
-                    let idConsulta = Number (prompt ("Ingrese ID para buscar Paciente"));
+                    let idConsulta = Number (prompt ("Ingrese ID del Paciente"));
                     const person = consultorio.find(p => p.id === idConsulta);
                     if (person) {
                                     alert (`${person.id}- ${person.nombre} ${person.apellido} \n La agenda es: ${person.agenda}`);
+                                    return [true,person.id]
                     } else {
                                     alert (`No existe el paciente en el consultorio`);
                     }               
@@ -133,7 +134,55 @@ function existePacientePorEdad(){
 
 function nombresPacientes (){
     const listaNombres = consultorio.map(Paciente => Paciente.nombre);
-    alert(listaNombres);
+    alert(`Los nombres de los pacientes son: ${listaNombres}`);
+}
+
+function promedioEdades(){
+    // .LENGTH para obtener total de objetos en el arreglo
+    const totalPacientes = consultorio.length;
+    //REDUCE acumulador para tener el total en este caso de edades todas sumandas, con acumulador, lo que suma y el 0 es el inciador
+    const edades = consultorio.reduce ((acum, item) => acum + item.edad, 0);
+    let promedioEdad=edades/totalPacientes;
+    alert (`El promedio de edades de los pacientes es de ${promedioEdad.toFixed(2)}`);
+}
+
+function ordenarPorEdad() {
+    consultorio.sort(function(a, b) {
+      var x = a.edad;
+      var y = b.edad;
+      if (x < y) { return -1; }
+      if (x > y) { return 1; }
+      return 0;
+    });
+    var ordenados = consultorio.map(function(objeto) {
+        return objeto.edad;
+      });
+    var mensaje = "Los nombres ordenados por edad son:\n" + ordenados.join("\n");
+    alert(mensaje);
+}
+
+function ordenarPorApellido() {
+    consultorio.sort(function(a, b) {
+        var x = a.apellido;
+        var y = b.apellido;
+        if (x < y) { return -1; }
+        if (x > y) { return 1; }
+        return 0;
+    });
+    var ordenados = consultorio.map(function(objeto) {
+         return objeto.apellido;
+    });
+    var mensaje = "Los nombres ordenados por apellido son:\n" + ordenados.join("\n");
+    alert(mensaje);
+}
+
+function eliminarPacienteId() {
+    let pacienteEliminado = busqPorId();
+    if (pacienteEliminado[0]){
+        const idPaciente = pacienteEliminado [1] - 1;
+        consultorio.splice(idPaciente, 1); // cual y cuantos elimino
+        alert ("El paciente fue eliminado correctamente");
+    }
 }
 
 function consultas (){
@@ -155,6 +204,18 @@ function consultas (){
                                 break;
                             case 5:
                                 nombresPacientes();
+                                break;
+                            case 6:
+                                promedioEdades();
+                                break;
+                            case 7:
+                                ordenarPorEdad();
+                                break;
+                            case 8:
+                                ordenarPorApellido();
+                                break;
+                            case 9:
+                                eliminarPacienteId();
                                 break;
                         }
                     seleccion = confirm("¿Desea hacer otra consulta?");
