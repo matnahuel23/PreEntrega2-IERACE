@@ -148,31 +148,31 @@ function promedioEdades(){
 
 function ordenarPorEdad() {
     consultorio.sort(function(a, b) {
-      var x = a.edad;
-      var y = b.edad;
+      let x = a.edad;
+      let y = b.edad;
       if (x < y) { return -1; }
       if (x > y) { return 1; }
       return 0;
     });
-    var ordenados = consultorio.map(function(objeto) {
+    const ordenados = consultorio.map(function(objeto) {
         return objeto.edad;
       });
-    var mensaje = "Los nombres ordenados por edad son:\n" + ordenados.join("\n");
+    let mensaje = "Los nombres ordenados por edad son:\n" + ordenados.join("\n");
     alert(mensaje);
 }
 
 function ordenarPorApellido() {
     consultorio.sort(function(a, b) {
-        var x = a.apellido;
-        var y = b.apellido;
+        let x = a.apellido;
+        let y = b.apellido;
         if (x < y) { return -1; }
         if (x > y) { return 1; }
         return 0;
     });
-    var ordenados = consultorio.map(function(objeto) {
+    const ordenados = consultorio.map(function(objeto) {
          return objeto.apellido;
     });
-    var mensaje = "Los nombres ordenados por apellido son:\n" + ordenados.join("\n");
+    let mensaje = "Los nombres ordenados por apellido son:\n" + ordenados.join("\n");
     alert(mensaje);
 }
 
